@@ -211,16 +211,16 @@ Run the repeatable audit:
 
 Fixture-based cross-channel support is not presented as a live WhatsApp-to-voice demonstration. See [real-call verification](sample_outputs/real-call-verification.md).
 
-## Limitations
+## Current scope and future improvements
 
-| Limitation | Current boundary |
-| --- | --- |
-| Caller-only trusted evidence | Assistant commitments require a future authorised speaker-aware extension |
-| Live cross-channel proof | WhatsApp/web-chat to voice continuity is demonstrated with fixtures, not a deployed non-voice writer |
-| Hindi/Hinglish verification | Backend bilingual tests pass, but final dual-language dashboard delivery and live voice quality remain unverified |
-| Hosting | Demo Quick Tunnels depend on local processes and are not stable deployment URLs |
-| Scale | SQLite and in-process workers are suitable for this hackathon MVP, not horizontal production deployment |
-| Token count | Context uses a deterministic estimate, not a model-specific tokenizer |
+| Area | Current implementation | Next improvement |
+| --- | --- | --- |
+| Caller evidence | Exact validation trusts caller quotations; assistant commitments are outside trusted memory | Add authorised speaker-aware validation for assistant commitments |
+| Cross-channel continuity | WhatsApp/web-chat-to-voice behavior is demonstrated with synthetic records; live ingestion and handoff remain unverified | Connect live WhatsApp/web-chat ingestion and demonstrate a handoff to voice |
+| Hindi/Hinglish | Backend bilingual tests pass; final transcript delivery and live voice quality remain unverified | Verify final transcript delivery and evaluate Hindi/Hinglish voice quality |
+| Hosting | Temporary Quick Tunnels depend on local processes | Deploy persistent HTTPS hosting |
+| Production scale | SQLite and in-process workers run on one host; distributed operation is unverified | Evaluate a shared database and distributed workers |
+| Token counts | Context uses a deterministic estimate, not a model-specific tokenizer | Use the selected model's tokenizer |
 
 ## Security and repository hygiene
 
