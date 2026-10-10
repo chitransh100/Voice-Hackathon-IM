@@ -18,7 +18,7 @@ The backend contains no LLM. Sarvam supplies the transcript and proposed structu
 | [Agent details](agent/agent-details.md) | Verified Agent ID and dashboard-link status |
 | [Team](team.md) | Kaizen team members |
 
-The recorded 5–7 minute demo link is pending teammate upload. The final Sarvam `app_version` is also still required.
+The recorded 5–7 minute demo link is pending teammate upload.
 
 ## The problem
 
