@@ -1,0 +1,22 @@
+VANI integration audit — 2026-10-10
+Command: ./run-integration-audit.sh
+
+Context
+  PASS — package vani-context/internal/httpapi
+  Covered 10 named HTTP/integration tests.
+
+EnrichmentAPI
+  PASS — package vani-context/enrichmentapi/internal/httpapi
+  Covered 12 named HTTP/integration tests.
+
+Lookup
+  PASS — package vani-lookup/internal/httpapi
+  Covered 11 named HTTP/integration tests.
+
+ProfileAPI
+  PASS — package vani-context/profileapi/internal/httpapi
+  Covered 2 named HTTP/integration tests.
+
+Total: 35 named tests, all passing.
+
+The four modules also compiled their command, storage, validation, memory and search packages successfully. Tests use isolated temporary SQLite databases; no live seller data is required.

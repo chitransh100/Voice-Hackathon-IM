@@ -1,0 +1,4 @@
+{
+  "found": true,
+  "context": "Historical evidence:\n\nMatch 1:\n- Date: 2026-10-10T07:19:34.000Z\n- Channel: other\n- Source: manual_user_confirmation / manual-nach-resolved-20261010\n- Summary: Seller directly confirmed that the NACH auto-debit problem was resolved offline.\n- Point: type=resolution, field=other, status=confirmed, value=\"resolved offline\"\n- Evidence: NATCH auto debit wali problem solve ho gyi hai. Woh offline solve ho gyi thi.\n\nMatch 2:\n- Date: 2026-09-30T06:30:00.000Z\n- Channel: voice\n- Thread: pranjal-nach-disable\n- Source: synthetic_database_fixture / pranjal-voice-nach-disable-20260930\n- Point: type=issue, field=other, status=reported, value=\"Turn off NACH auto-debit\"\n- Evidence: I have queries about NACH and I want to turn it off.\n\nLinked later updates:\n- 2026-10-10T07:19:34.000Z [other] resolution for other in thread pranjal-nach-disable: \"resolved offline\". Source: manual-nach-resolved-20261010."
+}

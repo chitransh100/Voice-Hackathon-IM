@@ -1,0 +1,11 @@
+.env
+*.log
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.zip
+vendor/
+node_modules/
+.idea/
+.vscode/
+.DS_Store

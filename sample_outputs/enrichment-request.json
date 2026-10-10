@@ -1,0 +1,11 @@
+{
+  "glusr_id": "SYNTH-SELLER-PRANJAL-001",
+  "role": "seller",
+  "source": "manual_user_confirmation",
+  "source_event_id": "manual-nach-resolved-20261010",
+  "channel": "other",
+  "occurred_at": "2026-10-10T12:49:34+05:30",
+  "session_state": "completed",
+  "transcript": "USER: NATCH auto debit wali problem solve ho gyi hai. Woh offline solve ho gyi thi.",
+  "enrichment_json": "{\"summary\":\"Seller directly confirmed that the NACH auto-debit problem was resolved offline.\",\"important_points_json\":\"[{\\\"type\\\":\\\"resolution\\\",\\\"scope\\\":\\\"thread\\\",\\\"thread_id\\\":\\\"pranjal-nach-disable\\\",\\\"field\\\":\\\"other\\\",\\\"value\\\":\\\"resolved offline\\\",\\\"unit\\\":null,\\\"status\\\":\\\"confirmed\\\",\\\"keywords\\\":[\\\"NACH\\\",\\\"auto debit\\\",\\\"resolved offline\\\"],\\\"evidence\\\":\\\"NATCH auto debit wali problem solve ho gyi hai. Woh offline solve ho gyi thi.\\\"}]\",\"profile_updates\":[]}"
+}

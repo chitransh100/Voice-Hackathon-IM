@@ -1,0 +1,17 @@
+{
+  "interaction_id": "enrich-a2635b0e6f0ae47e7d2909ae",
+  "accepted_revision": 1,
+  "processing_status": "failed",
+  "duplicate": false,
+  "applied_changes": [],
+  "skipped_changes": [],
+  "conflicting_changes": [],
+  "validation_warnings": [],
+  "extraction_status": "rejected",
+  "validation_errors": [
+    {
+      "code": "invalid_enrichment_json",
+      "message": "parse enrichment_json: invalid single quote while looking for the beginning of an object key"
+    }
+  ]
+}

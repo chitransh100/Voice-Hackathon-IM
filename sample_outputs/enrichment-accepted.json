@@ -1,0 +1,13 @@
+{
+  "interaction_id": "enrich-13a6ebb671e9a48a55d61ce0",
+  "accepted_revision": 1,
+  "processing_status": "processed",
+  "duplicate": false,
+  "context_version": 12,
+  "applied_changes": [],
+  "skipped_changes": [],
+  "conflicting_changes": [],
+  "validation_warnings": [],
+  "extraction_status": "accepted",
+  "validation_errors": []
+}
