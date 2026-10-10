@@ -58,7 +58,15 @@ flowchart TD
 
 Retained live Sarvam requests show the demo agent using the fixed trusted identity `SYNTH-SELLER-PRANJAL-001` with role `seller`. This is the synthetic **Pranjal Ltd** seller; no city is stored. Its short current context records that the login and NACH auto-debit issues were resolved and retains recent voice and WhatsApp history. The backend keeps every seller or buyer separate using the `(glusr_id, role)` key.
 
-To use another seller, create or load that seller's profile and Context snapshot, then map the same trusted `glusr_id` and `role` into the Sarvam Context, Profile, Lookup and Enrichment calls. The current demo does **not** automatically select a seller or route calls by campaign.
+### Using VANI for another seller
+
+Before calling another seller:
+
+1. Ensure their profile and prepared Context exist in the database.
+2. Set the Sarvam input variables to that seller's `glusr_id` and `role = seller`.
+3. Map those same identity values into Context, Profile, Lookup and Enrichment requests.
+
+VANI will then load and update that seller's memory. The current demo uses one configured test seller; automatic identity selection for outbound campaigns is not implemented.
 
 The shared SQLite database has three tables:
 
