@@ -1,6 +1,6 @@
 # Team
 
-[← Back to README](README.md)
+[← README](README.md)
 
 **Team name:** Kaizen
 

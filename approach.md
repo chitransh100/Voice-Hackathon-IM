@@ -1,86 +1,61 @@
-# Our approach
+# Approach
 
-[← Back to README](README.md) · [Impact and evidence](impact.md)
+[← README](README.md) · [Impact and evidence](impact.md) · [Build journey](skills.md)
 
-## The problem
+## Problem 2: shared memory across channels
 
-A seller may speak to IndiaMART more than once and through different channels. Without shared memory, every conversation starts from zero:
+A seller may discuss an issue on one call, share information through another channel and continue later. Without shared memory, the next conversation starts from zero: details are repeated, preferences are forgotten and unrelated issues can be mixed together.
 
-- the seller must repeat information;
-- earlier preferences may be forgotten;
-- unresolved issues may be missed; and
-- separate problems may get mixed together.
+VANI gives each `(glusr_id, role)` pair one structured memory. Buyer and seller records remain separate even when they use the same GLUSR ID.
 
-VANI addresses **Problem 2 — Global Context: Memory Across Channels** by giving the assistant one shared, structured memory for each GLUSR ID and role.
+## Core approach
 
-## The solution
+VANI separates everyday context from detailed history:
 
-VANI uses four small APIs connected to one shared database:
+1. **Prepared Context** provides a short briefing before every conversation.
+2. **Profile** supplies the complete nested business profile.
+3. **Lookup** retrieves older evidence only when the conversation needs it.
+4. **Enrichment** validates and saves supported post-call information, then rebuilds Context.
 
-| API | What it does |
-| --- | --- |
-| Context | Loads a short seller or buyer briefing before the conversation |
-| Profile | Returns the complete business profile |
-| Lookup | Finds an older detail when it is not in the short briefing |
-| Enrichment | Saves supported information after the conversation and refreshes Context |
+All four services use the same SQLite database and the same three tables: `users`, `interactions` and `current_context`.
 
-```mermaid
-flowchart LR
-    A[Load profile and Context] --> B[Start conversation]
-    B -. older detail needed .-> C[Look up history]
-    C -. result .-> B
-    B --> D[Save supported new information]
-    D --> E[Refresh Context]
-    E --> F[Use updated memory next time]
-```
+## What stays in Context
 
-## How memory works
+The default recent-conversation window is **15 UTC days**. Context also keeps important durable information even when its source is older:
 
-Every request is identified by both `glusr_id` and `role`, so buyer and seller memory remains separate.
-
-The prepared Context contains:
-
-- business name and city;
 - current preferences;
-- restrictions and commitments;
+- restrictions;
 - unresolved issue threads; and
-- conversation summaries from the last **15 days**.
+- commitments.
 
-Important unresolved information is retained even when it is older than 15 days. Full older history remains available through Lookup.
+Older interactions remain stored and searchable through Lookup.
 
-Each issue has its own thread. For example, resolving a login problem does not close an unrelated NACH or catalogue problem.
+Each issue has its own thread. Resolving a login problem therefore does not close an unrelated NACH or catalogue problem.
 
-## Why we chose short Context plus Lookup
+## Why Context and Lookup are separate
 
-Sending all history into every conversation would make the prompt long and harder to use. VANI instead provides:
+Sending all history into every conversation would make the prompt longer and hide current priorities. VANI instead uses:
 
-1. a compact prepared Context for information needed regularly; and
-2. a focused history Lookup for older details needed occasionally.
+- a compact prepared briefing for the common path; and
+- a bounded, source-linked search for occasional older detail.
 
-This gives the agent useful memory without placing all stored history into every prompt.
+The complete profile is returned separately, so it is not silently shortened to fit the Markdown budget.
 
 ## Keeping memory trustworthy
 
-Sarvam provides the transcript and proposed conversation points. The backend validates them before adding them to trusted memory.
+Sarvam proposes the summary, structured points and profile updates. The backend does not run an LLM; it applies deterministic checks before information enters trusted memory.
 
-- Evidence must match the caller's transcript.
-- Unsupported points are excluded.
-- Valid independent points can still be saved.
-- Repeated delivery does not create duplicate interactions.
-- Corrected deliveries are stored as revisions.
+- Evidence must exactly match a caller transcript variant.
+- Invalid points stay outside trusted Context.
+- Valid independent points can still be accepted.
+- Duplicate deliveries do not create duplicate interactions.
+- Changed deliveries use explicit revisions.
+- Failed Context rebuilds remain retryable.
 
-The original conversation is retained when extraction is malformed, but rejected information is kept outside trusted Context.
+The raw authenticated conversation is retained when nested extraction is malformed, allowing a corrected revision without treating rejected content as fact.
 
-## Expected value
+## Evidence boundary
 
-VANI is designed to provide:
+Automated tests verify the memory behavior and synthetic fixtures demonstrate cross-channel data handling. Real Sarvam calls verify the voice start/end API path. A live WhatsApp or web-chat writer followed by a voice continuation was not demonstrated.
 
-- more relevant conversation openings;
-- fewer repeated questions;
-- continuity for unresolved issues;
-- language and calling-time personalization; and
-- shared memory that other authorised channels can reuse.
-
-These are expected benefits. We did not measure production conversion, savings or call-time improvements during the hackathon.
-
-Verification status, measurements and material limitations are kept in the supporting [impact and evidence document](impact.md).
+See [impact.md](impact.md) for measurements, jury-criteria mapping and material limitations.

@@ -1,12 +1,10 @@
-# Impact and evidence
+# Impact and Evidence
 
-[← Back to README](README.md)
+[← README](README.md) · [Approach](approach.md) · [Build journey](skills.md)
 
 ## Problem and expected business value
 
-Conversations start cold when a voice agent cannot see what a seller or buyer has already shared. The user repeats profile details, preferences and unresolved problems; corrections made in one interaction may not reach the next; unrelated enquiries can be mixed together.
-
-VANI addresses this with one evidence-backed memory layer keyed by GLUSR ID and role. The benefits below are **expected impact**. The hackathon implementation did not run a production experiment and makes no claim about conversion, savings, call duration or percentage improvement.
+VANI uses one evidence-backed memory for each GLUSR ID and role. The benefits below are **expected impact**. We did not run a production experiment and make no claim about conversion, savings, call duration or percentage improvement.
 
 | Capability demonstrated | Expected impact | Important boundary |
 | --- | --- | --- |
@@ -21,15 +19,15 @@ VANI addresses this with one evidence-backed memory layer keyed by GLUSR ID and 
 
 | Expected output | Implemented behavior | Concrete evidence | Status / limitation |
 | --- | --- | --- | --- |
-| GLID/GLUSR ID + role identity | All reads/writes are scoped to `(glusr_id, role)`; roles are `buyer` or `seller` | [Migration](Context/migrations/001_initial.sql), Context/Profile/Lookup/Enrichment tests | VERIFIED AUTOMATICALLY |
-| Generated `buyer.md` and `seller.md` | Deterministic builder exports separate snapshots for one shared synthetic GLID | [buyer.md](sample_outputs/buyer.md), [seller.md](sample_outputs/seller.md), sample-export equality test | VERIFIED FROM FIXTURE |
-| Context loaded before speaking | Start mapping calls Context before conversation | [Hook mapping](agent/hook-mappings.md); real logs observed HTTP `200` as recorded in [real-call verification](sample_outputs/real-call-verification.md) | API delivery VERIFIED; personalized opening quality NOT SCORED |
-| Conversation resumed across two channels | Shared thread contains web-chat/WhatsApp history and a later voice summary | [seller.md](sample_outputs/seller.md) and synthetic seed in `Context/internal/storage/seed.go` | VERIFIED AS FIXTURE/TEST ONLY; no live two-channel handoff recording |
-| Short, structured memory | Headings for profile, preferences, restrictions, open threads, commitments and recent conversations | [seller.md](sample_outputs/seller.md), builder code, compactness measurements below | VERIFIED AUTOMATICALLY |
-| Refresh after new activity | Accepted Enrichment persists, rebuilds, marks processed and returns `context_version`; stale/retry workers recover failures | Enrichment service and recovery tests; [accepted response](sample_outputs/enrichment-accepted.json) | VERIFIED AUTOMATICALLY; real latency distribution unmeasured |
-| Sources | Durable points and Markdown include source IDs, timestamps and channels; Lookup returns evidence | [Lookup sample](sample_outputs/lookup-nach-resolution.json) | VERIFIED AUTOMATICALLY and by inspected synthetic records |
-| Lookback window | Recent summaries use UTC and an inclusive cutoff; older unresolved durable state remains | Default **15 days**, configurable 1–365 via `VANI_RECENT_HISTORY_DAYS`; exact-boundary test | VERIFIED AUTOMATICALLY |
-| Refresh logic | Profile or interaction revision makes a snapshot stale; publication rechecks revisions before commit | Context builder/store tests and recovery tests | VERIFIED AUTOMATICALLY |
+| GLID/GLUSR ID + role identity | All reads/writes are scoped to `(glusr_id, role)`; roles are `buyer` or `seller` | [Migration](Context/migrations/001_initial.sql), Context/Profile/Lookup/Enrichment tests | Verified by automated tests |
+| Generated `buyer.md` and `seller.md` | Deterministic builder exports separate snapshots for one shared synthetic GLID | [buyer.md](sample_outputs/buyer.md), [seller.md](sample_outputs/seller.md), sample-export equality test | Verified with synthetic fixtures |
+| Context loaded before speaking | Start mapping calls Context before conversation | [Hook mapping](agent/hook-mappings.md); real logs observed HTTP `200` as recorded in [real-call verification](sample_outputs/real-call-verification.md) | API delivery verified; opening quality not scored |
+| Conversation resumed across two channels | Shared thread contains web-chat/WhatsApp history and a later voice summary | [seller.md](sample_outputs/seller.md) and synthetic seed in `Context/internal/storage/seed.go` | Fixture/test only; no live two-channel handoff recording |
+| Short, structured memory | Headings for profile, preferences, restrictions, open threads, commitments and recent conversations | [seller.md](sample_outputs/seller.md), builder code, compactness measurements below | Verified by automated tests |
+| Refresh after new activity | Accepted Enrichment persists, rebuilds, marks processed and returns `context_version`; stale/retry workers recover failures | Enrichment service and recovery tests; [accepted response](sample_outputs/enrichment-accepted.json) | Verified by automated tests; real latency distribution unmeasured |
+| Sources | Durable points and Markdown include source IDs, timestamps and channels; Lookup returns evidence | [Lookup sample](sample_outputs/lookup-nach-resolution.json) | Verified by tests and inspected synthetic records |
+| Lookback window | Recent summaries use UTC and an inclusive cutoff; older unresolved durable state remains | Default **15 days**, configurable 1–365 via `VANI_RECENT_HISTORY_DAYS`; exact-boundary test | Verified by automated tests |
+| Refresh logic | Profile or interaction revision makes a snapshot stale; publication rechecks revisions before commit | Context builder/store tests and recovery tests | Verified by automated tests |
 
 ### What the two-channel fixture proves
 
@@ -40,7 +38,7 @@ It is seeded synthetic history. It is **not proof** that a production WhatsApp w
 ## Why prepared Context plus Lookup
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[(All retained history)] --> B[Deterministic snapshot builder]
     B --> C[Compact prepared Context<br/>for every conversation]
     A --> D[Bounded keyword Lookup<br/>only when detail is needed]
@@ -87,7 +85,7 @@ This is a sanitized synthetic seller example. The resolution was a direct authen
 | Criterion | Evidence | Material limitation |
 | --- | --- | --- |
 | **Business Impact — 25%** | Addresses repeated questions, continuity, source-linked corrections and safe preferences; see expected-impact table above | Benefits are expected, not measured in production |
-| **Solution Completeness — 20%** | Four runnable APIs, shared migration, seed, complete profile, prepared Context, Lookup and post-call Enrichment; [setup](README.md#quick-start) | Stable deployment and live two-channel writer are outside the package |
+| **Solution Completeness — 20%** | Four runnable APIs, shared migration, seed, complete profile, prepared Context, Lookup and post-call Enrichment; [setup](README.md#run-locally) | Stable deployment and live two-channel writer are outside the package |
 | **Technical Robustness — 20%** | 35 tests cover identity isolation, exact evidence, partial acceptance, raw-call retention, idempotency, revisions, concurrency and rebuild recovery; [test output](sample_outputs/test-results.txt) | SQLite/in-process workers are single-host MVP choices |
 | **Voice Experience — 20%** | Sarvam start/on-end hooks reached APIs; Hindi evidence mismatch was diagnosed; bilingual transcript variants are supported and backend-tested | Backend bilingual tests do not prove live Hindi/Hinglish quality or audio latency; final dual-language delivery remains unverified |
 | **Demo & `skills.md` — 15%** | Sanitized before/after, Lookup, accepted/rejected Enrichment and factual [build journey](skills.md) | Final video URL, duration and Sarvam `app_version` are still required |

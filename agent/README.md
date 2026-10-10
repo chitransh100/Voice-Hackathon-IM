@@ -1,6 +1,6 @@
-# Sarvam agent configuration
+# Sarvam Agent Configuration
 
-[← Back to project README](../README.md)
+[← README](../README.md) · [Approach](../approach.md) · [Sample outputs](../sample_outputs/README.md)
 
 | File | Purpose |
 | --- | --- |

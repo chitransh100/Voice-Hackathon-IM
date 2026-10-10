@@ -1,6 +1,6 @@
-# Sarvam agent details
+# Sarvam Agent Details
 
-[← Back to project README](../README.md)
+[← README](../README.md) · [Agent configuration](README.md)
 
 | Field | Value |
 | --- | --- |

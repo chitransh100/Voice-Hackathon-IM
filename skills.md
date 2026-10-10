@@ -1,14 +1,12 @@
-# Build journey, tools and lessons
+# Build Journey: Tools, Fixes and Lessons
 
-[← Back to README](README.md) · [Impact and evidence](impact.md)
+[← README](README.md) · [Approach](approach.md) · [Impact and evidence](impact.md)
 
 ## How the solution evolved
 
-We began with the Context API and the authoritative three-table migration. The first milestone was a deterministic compact snapshot that could return a complete profile, current preferences and recent cross-channel context with strict buyer/seller isolation.
+We began with the Context API and the authoritative three-table migration. The first milestone was a compact, deterministic snapshot with complete profile data, current preferences and strict buyer/seller isolation.
 
-The project stayed focused on Problem 2: create continuity without putting an LLM or an unbounded history scan on the conversation-start path. We used a prepared snapshot for the common case and keyword evidence lookup for older detail.
-
-Next, we added bounded historical lookup for details intentionally absent from the compact context. The lookup path stayed read-only and used the same structured point format, thread relationships and source evidence.
+Next, we added bounded historical Lookup for details intentionally absent from Context. It stayed read-only and used the same structured points, issue threads and source evidence.
 
 The Profile API provided a clean pre-conversation read, while Enrichment completed the feedback loop by saving post-call transcripts, validating Sarvam extraction output, applying supported profile updates and rebuilding the snapshot.
 
