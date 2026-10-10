@@ -54,6 +54,12 @@ flowchart TD
     J --> K[Ready for the next conversation]
 ```
 
+### Demo setup
+
+Retained live Sarvam requests show the demo agent using the fixed trusted identity `SYNTH-SELLER-PRANJAL-001` with role `seller`. This is the synthetic **Pranjal Ltd** seller; no city is stored. Its short current context records that the login and NACH auto-debit issues were resolved and retains recent voice and WhatsApp history. The backend keeps every seller or buyer separate using the `(glusr_id, role)` key.
+
+To use another seller, create or load that seller's profile and Context snapshot, then map the same trusted `glusr_id` and `role` into the Sarvam Context, Profile, Lookup and Enrichment calls. The current demo does **not** automatically select a seller or route calls by campaign.
+
 The shared SQLite database has three tables:
 
 - `users` — identity, business metadata and complete profile JSON;
