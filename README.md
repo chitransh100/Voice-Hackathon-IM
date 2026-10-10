@@ -41,22 +41,17 @@ These are expected benefits, not measured production improvements. See [impact.m
 
 ```mermaid
 flowchart TD
-    A[Load Profile and prepared Context] --> B[Start voice conversation]
-    B --> C{Older detail needed?}
-    C -->|Yes| D[Lookup bounded history and evidence]
-    D --> B
-    C -->|No or finished| E[Sarvam extracts summary, points and profile updates]
-    E --> F[Enrichment retains the call and validates evidence]
-    F --> G[Save trusted interaction and supported preferences]
-    G --> H[Rebuild compact current_context]
-    H --> I[Use refreshed memory in the next conversation]
-
-    P[(users)] --> A
-    DBASE[(interactions)] --> D
-    G --> P
-    G --> DBASE
-    H --> SNAP[(current_context)]
-    SNAP --> A
+    A[Start hook] --> B[Load profile and current context]
+    B --> C[Voice conversation]
+    C --> D{Older detail needed?}
+    D -->|Yes| E[Look up matching history]
+    D -->|No| F[Continue conversation]
+    E --> F
+    F --> G[Extract summary and memory points]
+    G --> H[Validate evidence and profile changes]
+    H --> I[Save accepted memory]
+    I --> J[Rebuild current context]
+    J --> K[Ready for the next conversation]
 ```
 
 The shared SQLite database has three tables:
